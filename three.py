@@ -43,44 +43,64 @@ xNorm = min_max_scaler.fit_transform(X)
 X = xNorm
 
 #   Get the test and train data results (toggle normalization above)
-xTrain, xTest, yTrain, yTest = train_test_split(X,Y,test_size=0.4)
+#xTrain, xTest, yTrain, yTest = train_test_split(X,Y,test_size=0.4)
+
+#   Lists used to hold model data for use in calculating averages
+lmList = []
+SVMList = []
+kSVMList = []
+nnList = []
+
+
+#   Get fill lists for average calculation
+for i in range(100):
+    xTrain, xTest, yTrain, yTest = train_test_split(X,Y,test_size=0.4)
+    #   Logistic model
+    logReg = LogisticRegression()
+    logReg.fit(xTrain, yTrain)
+    logRegPred = logReg.predict(xTest)
+    lmList.append(accuracy_score(yTest, logRegPred))
+
+    #   SVM model
+    svmMod = SVC(kernel='linear')
+    svmMod.fit(xTrain, yTrain)
+    svmModPred = svmMod.predict(xTest)
+    SVMList.append(accuracy_score(yTest, svmModPred))
+
+    #   kernelSVM model
+    kerMod = SVC(kernel='rbf')
+    kerMod.fit(xTrain, yTrain)
+    kerModPred = kerMod.predict(xTest)
+    kSVMList.append(accuracy_score(yTest, kerModPred))
+
+    #   Neural Network
+    nncMod = MLPClassifier(solver='lbfgs',max_iter=1000)
+    nncMod.fit(xTrain, yTrain)
+    nncModPred = nncMod.predict(xTest)
+    nnList.append(accuracy_score(yTest, nncModPred))
+#---------------------------------------------------------------------
+
 
 #
-##  Create and display the models
+##  Print example data for last iteration, for each model
 #
-
-#   Logistic model
 print("\n\n!!>                        Logistic Model              ")
-logReg = LogisticRegression()
-logReg.fit(xTrain, yTrain)
-logRegPred = logReg.predict(xTest)
 print( classification_report(yTest, logRegPred))
-print(accuracy_score(yTest, logRegPred))
-
-#   SVM model
 print("\n\n!!>                          SVM Model               ")
-svmMod = SVC(kernel='linear')
-svmMod.fit(xTrain, yTrain)
-svmModPred = svmMod.predict(xTest)
 print(classification_report(yTest, svmModPred))
-print(accuracy_score(yTest, svmModPred))
-
-#   kernelSVM model
 print("\n\n!!>                        kernelSVM Model            ")
-kerMod = SVC(kernel='rbf')
-kerMod.fit(xTrain, yTrain)
-kerModPred = kerMod.predict(xTest)
 print(classification_report(yTest, kerModPred))
-print(accuracy_score(yTest, kerModPred))
-
-#   Neural Network
 print("\n\n!!>                         Neural Network               ")
-nncMod = MLPClassifier(solver='lbfgs',max_iter=1000)
-nncMod.fit(xTrain, yTrain)
-nncModPred = nncMod.predict(xTest)
 print(classification_report(yTest, nncModPred))
-print(accuracy_score(yTest, nncModPred))
 print("")
+
+#
+##  Print averages for each model
+#
+print("Average Logistic:       {}".format( sum(lmList) / len(lmList)))
+print("Average SVM:            {}".format( sum(SVMList) / len(SVMList)))
+print("Average kernelSVM:      {}".format( sum(kSVMList) / len(kSVMList)))
+print("Average Neural Network: {}".format( sum(nnList) / len(nnList)))
 
 
 

@@ -48,7 +48,8 @@ print('Mean squared error: %.2f'% mean_squared_error(y_test, yPred))
 #
 #       Calcuilate the cost over time of cost function.
 #       Cost function = Mean squared error
-def linear_regression(x, y, epochs=250, lRate=0.00000025):
+iterations = 100
+def linear_regression(x, y, epochs=iterations, lRate=0.00000025):
     mCurr = 0
     bCurr = 0
     costList = []
@@ -66,7 +67,7 @@ def linear_regression(x, y, epochs=250, lRate=0.00000025):
 
 m_current, b_current, cost, costList = linear_regression(X, Y)
 
-plt.plot(list(range(250)), costList, '-r')
+plt.plot(list(range(iterations)), costList, '-r')
 plt.show()
 
 
