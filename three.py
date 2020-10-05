@@ -85,7 +85,7 @@ for i in range(100):
 ##  Print example data for last iteration, for each model
 #
 print("\n\n!!>                        Logistic Model              ")
-print( classification_report(yTest, logRegPred))
+print(classification_report(yTest, logRegPred))
 print("\n\n!!>                          SVM Model               ")
 print(classification_report(yTest, svmModPred))
 print("\n\n!!>                        kernelSVM Model            ")
@@ -104,17 +104,6 @@ print("Average Neural Network: {}".format( sum(nnList) / len(nnList)))
 
 
 
-#       UNDER HERE IS CODE IM WORKING ON, ITS IRRELEVANT.
 
-
-
-#dsf = pd.DataFrame(classification_report(yTest, nncModPred, digits=2,output_dict=True)).T
-#dsf['support'] = dsf.support.apply(int)
-#dsf.style.background_gradient(cmap='viridis',subset=pd.IndexSlice['0':'9', :'f1-score'])
-
-
-#Use [:,0] here because xTest is 2Dimensional, and we need to squish it to 1D
-#plt.scatter(xTest[:,0], yTest, c='r', cmap='rainbow')
-#plt.show()
 
 #------------------------------------------------------------

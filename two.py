@@ -17,7 +17,6 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
-from sklearn import preprocessing
 
 #   Read CSV file
 path = 'ONE\gold_price_annual0.csv'
@@ -26,16 +25,16 @@ X = df[['Date']].values.reshape(-1,1)
 Y = df['Price'].values.reshape(-1,1)
 
 #   Create training and test set.
-x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.33)
+xTrain, xTest, yTrain, yTest = train_test_split(X, Y, test_size=0.33)
 
 
 #   Creates model object
 lrModel = LinearRegression()
-lrModel.fit(x_train, y_train)
-yPred = lrModel.predict(x_test)
+lrModel.fit(xTrain, yTrain)
+yPred = lrModel.predict(xTest)
 
 #   The mean squared error using premade sklearn function
-print('Mean squared error: %.2f'% mean_squared_error(y_test, yPred))
+print('Mean squared error: %.2f'% mean_squared_error(xTest, yPred))
 
 #   Plotting graph for better udnerstanding.
 #plt.scatter(x_test, y_test, color = "m", marker = "o", s = 15)
@@ -48,8 +47,8 @@ print('Mean squared error: %.2f'% mean_squared_error(y_test, yPred))
 #
 #       Calcuilate the cost over time of cost function.
 #       Cost function = Mean squared error
-iterations = 100
-def linear_regression(x, y, epochs=iterations, lRate=0.00000025):
+iter = 1000
+def linear_regression(x, y, epochs=1, lRate=0.00000025):
     mCurr = 0
     bCurr = 0
     costList = []
@@ -62,27 +61,10 @@ def linear_regression(x, y, epochs=iterations, lRate=0.00000025):
         bGradient = -(2/N) * sum(y - yCurr)
         mCurr = mCurr - (lRate * mGradient)
         bCurr = bCurr - (lRate * bGradient)
-        print("m {}, b {}, cost {} iteration {}".format(mCurr,bCurr,cost, i))
+        print("mCurr {}, bCurr {}, cost {}, i {}".format(mCurr,bCurr,cost, i))
     return mCurr, bCurr, cost, costList
 
-m_current, b_current, cost, costList = linear_regression(X, Y)
+m_current, b_current, cost, costList = linear_regression(X, Y, iter)
 
-plt.plot(list(range(iterations)), costList, '-r')
+plt.plot(list(range(iter)), costList, '-r')
 plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#------------------------------------------------------------------------------
